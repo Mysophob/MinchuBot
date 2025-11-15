@@ -4,6 +4,9 @@ dist
 # Environment variables file
 .env
 
+# SQLite db file
+database.sqlite
+
 # Logs
 logs
 *.log
