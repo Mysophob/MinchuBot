@@ -56,6 +56,8 @@ const coinflip: Command = {
     const won = coin === result;
     let newAmount = currency + winAmount;
     if(!won) newAmount = currency - betAmount;
+    if(newAmount <= 0) newAmount = 0;
+    
     const loseMessage = `Better Luck next time! You lost ${betAmount} and have ${newAmount} now.`
     const winMessage = `Ok you got me this time...You won ${winAmount} and have ${newAmount} now.`
 
