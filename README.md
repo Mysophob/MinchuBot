@@ -1,2 +1,2 @@
-# MinchuBot
-DiscordJS Bot for Minchu Discord
+Readme
+USER discordbot

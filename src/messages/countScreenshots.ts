@@ -1,0 +1,49 @@
+import { Message } from "discord.js";
+import { updateScreenshotCounter } from "../database/models/ScreenshotCounter.model";
+
+export const screenshotBotList = ["@1385872966759354449", "@1428320087848521838", "193383265661353984"];
+export const screenshotChannelIdList = ["1385872733707046962", "1437043792078307391"];
+
+
+const countScreenshots = async (newMessage: Message) => {
+    //if(!screenshotBotList.includes(message.author.id)) return;
+    if (newMessage.attachments.size === 0) {
+        return;
+    }
+
+    const imageAttachments = newMessage.attachments.filter(attachment =>
+        attachment.contentType?.startsWith("image/")
+    );
+
+    if (!screenshotChannelIdList.includes(newMessage.channelId)) return;
+
+    const imageCount = imageAttachments.size;
+    if (screenshotBotList.includes(newMessage.author.id)) {
+        // This is a bot message, so we need to parse the content to find the real user.
+        const usernameRegex = new RegExp(/^(.+?)\sによって撮影されたスナップショット。/);
+        const match = newMessage.content.match(usernameRegex);
+
+        if (match && match[1]) {
+            const extractedTwtichUserName = match[1];
+            console.log(`Screenshot bot posted ${imageCount} image(s) for user: ${extractedTwtichUserName}`);
+            await updateScreenshotCounter({
+                userId: extractedTwtichUserName,
+                userName: extractedTwtichUserName,
+                amount: imageCount
+            });
+            await newMessage.react('✅');
+        }
+    }
+    else {
+        if (imageCount > 0) {
+            await updateScreenshotCounter({
+                userId: newMessage.author.id,
+                userName: newMessage.author.username,
+                amount: imageCount
+            });
+            await newMessage.react('✅');
+        }
+    }
+}
+
+export default countScreenshots;
