@@ -19,6 +19,14 @@ const onReady = async (BOT: Client) => {
     { body: commandData },
   );
 
+    await rest.put(
+    Routes.applicationGuildCommands(
+      BOT.user?.id || 'missing id',
+      process.env.TEST_GUILD_ID as string,
+    ),
+    { body: commandData },
+  );
+
   await AttachEvents(BOT);
   console.log('Bot locked and loaded');
 };

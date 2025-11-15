@@ -19,6 +19,11 @@ const getScreenshotTopList: Command = {
     const formattedList = toplist.map((user, index) => {
       return `${index + 1}. ${user.userName}: ${user.screenshotcounter}`;
     }).join('\n');
+
+    if(formattedList.length === 0) {
+      await interaction.editReply(`No entries for this month😢`);
+      return;
+    }
     await interaction.editReply(`${formattedList}`);
   },
 };

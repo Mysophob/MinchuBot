@@ -2,7 +2,6 @@ import * as dotenv from 'dotenv';
 import { Client, Events, GatewayIntentBits, Partials } from 'discord.js';
 import onReady from './events/onReady';
 import botDatabase from './database/sqlLiteConnector';
-import onMessageCreated from './events/eventhooks/onMessage';
 
 (async () => {
   dotenv.config();
