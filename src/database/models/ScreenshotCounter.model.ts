@@ -109,7 +109,6 @@ export const getMonthlyTopList = async (): Promise<TopScreenshotUserDto[]> => {
                 yearMonth: currentYearMonth
             },
             order: [['screenshotcounter', 'DESC']],
-            limit: 10,
             raw: true
         });
         return topUsers;
