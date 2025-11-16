@@ -4,11 +4,11 @@ import { askAi } from "../../messages/askAi";
 
 
 const onMessageCreated = async (message: Message, client: Client) => {
+  countScreenshots(message);
+  
   if (!message.author.bot) {
     const messageContent = message.content;
     message.type
-
-    countScreenshots(message);
 
     if (messageContent.includes("@1437043099401715782")) {
       let reply = await askAi(messageContent);
