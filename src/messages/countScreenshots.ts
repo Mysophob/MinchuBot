@@ -20,7 +20,7 @@ const countScreenshots = async (newMessage: Message) => {
     const imageCount = imageAttachments.size;
     if (screenshotBotList.includes(newMessage.author.id)) {
         // This is a bot message, so we need to parse the content to find the real user.
-        const usernameRegex = new RegExp(/^(?:.+?)\s?(.+?)\sによって撮影されたスナップショット。/);
+        const usernameRegex = new RegExp(/^(?:(?:.+?)\s)?(.+?)\sによって撮影されたスナップショット。/);
         const match = newMessage.content.match(usernameRegex);
 
         if (match && match[1]) {
