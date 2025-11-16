@@ -1,7 +1,7 @@
 import { Message } from "discord.js";
 import { updateScreenshotCounter } from "../database/models/ScreenshotCounter.model";
 
-export const screenshotBotList = ["@1385872966759354449", "@1428320087848521838", "193383265661353984"];
+export const screenshotBotList = ["1385872966759354449"];
 export const screenshotChannelIdList = ["1385872733707046962", "1437043792078307391"];
 
 
