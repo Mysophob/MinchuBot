@@ -6,7 +6,7 @@ import { getMonthlyTopList } from "../../database/models/ScreenshotCounter.model
 const getScreenshotTopList: Command = {
   data: new SlashCommandBuilder()
     .setName("screenshottoplist")
-    .setDescription("How posted the most screenshots?"),
+    .setDescription("Who posted the most screenshots?"),
   run: async (interaction) => {
     if (!(interaction instanceof ChatInputCommandInteraction)) return;
 

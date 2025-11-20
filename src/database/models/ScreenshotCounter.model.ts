@@ -152,7 +152,6 @@ export const getTopListForMonth = async (dateString: string): Promise<TopScreens
         });
 
         return topUsers;
-
     } catch (error) {
         console.error(`[Error] Could not get top list for month "${dateString}":`, error);
         return [];

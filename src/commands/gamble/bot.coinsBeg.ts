@@ -39,7 +39,7 @@ const begForCurrency: Command = {
 
         if (currencyEntry.lastBegTime && !canBegAgain(currencyEntry.lastBegTime)) {
             const timeLeft = getTimeUntilCanBeg(currencyEntry.lastBegTime);
-            await interaction.editReply(`You cannot beg so often! Wait ${formatTimeRemaining(timeLeft)}`);
+            await interaction.editReply(`Tss you shouldn't beg so often! Wait ${formatTimeRemaining(timeLeft)}`);
             return;
         }
 
@@ -47,7 +47,7 @@ const begForCurrency: Command = {
 
         await updateUserCurrencyEntry({ userId: interaction.user.id, userName: interaction.user.displayName, amount: newAmount });
         await updateUserBegTimeEntry({ userId: interaction.user.id, userName: interaction.user.displayName });
-        await interaction.editReply(`I gave you some coins you have ${newAmount}`);
+        await interaction.editReply(`Okay okay, I found you some coins. Now you have ${newAmount} coins, use them carefully!`);
     },
 };
 

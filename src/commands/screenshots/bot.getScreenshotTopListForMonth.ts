@@ -10,7 +10,7 @@ const getScreenshotTopListForMonth: Command = {
     .addStringOption((option) =>
       option
         .setName('monthchoice')
-        .setDescription('Which result do you want to bet on?')
+        .setDescription('Make sure you enter in format like 2025/11')
         .setRequired(true)
         .addChoices(
           currentMonthsList
@@ -37,7 +37,7 @@ const getScreenshotTopListForMonth: Command = {
 
 
     if(formattedList.length === 0) {
-      await interaction.editReply(`No entries for this month😢`);
+      await interaction.editReply(`No entries for this month😢.`);
       return;
     }
 

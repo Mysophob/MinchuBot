@@ -6,7 +6,7 @@ import { getCurrencyTopList } from "../../database/models/UserCoinflip.model";
 const coinTopList: Command = {
   data: new SlashCommandBuilder()
     .setName("cointoplist")
-    .setDescription("How many coins do i have?"),
+    .setDescription("Who has the most coins?"),
   run: async (interaction) => {
     if (!(interaction instanceof ChatInputCommandInteraction)) return;
 
