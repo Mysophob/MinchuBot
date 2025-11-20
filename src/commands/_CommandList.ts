@@ -5,6 +5,7 @@ import coinflip from "./gamble/bot.coinflip";
 import coins from "./gamble/bot.getCurrency";
 import coinTopList from "./gamble/bot.coinsTopList";
 import getScreenshotTopList from "./screenshots/bot.getScreenshotTopList";
+import getScreenshotTopListForMonth from "./screenshots/bot.getScreenshotTopListForMonth";
 
 const CommandList: Command[] = [
   botSetPersonality,
@@ -14,7 +15,8 @@ const CommandList: Command[] = [
   coins,
   coinTopList,
   //screenshots
-  getScreenshotTopList
+  getScreenshotTopList,
+  getScreenshotTopListForMonth
 ];
 
 export default CommandList;

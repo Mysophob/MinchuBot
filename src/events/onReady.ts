@@ -4,12 +4,17 @@ import { Client } from 'discord.js';
 import CommandList from '../commands/_CommandList';
 import AttachEvents from './EventInitialisation';
 
-const onReady = async (BOT: Client) => {
-  const rest = new REST({ version: '9' }).setToken(
-    process.env.BOT_TOKEN as string,
-  );
+const rest = new REST({ version: '9' }).setToken(
+  process.env.BOT_TOKEN as string,
+);
 
-  const commandData = CommandList.map((command) => command.data.toJSON());
+const onReady = async (BOT: Client) => {
+  await updateCommandData(BOT);
+};
+
+export const updateCommandData = async(BOT: Client) =>
+{
+    const commandData = CommandList.map((command) => command.data.toJSON());
 
   await rest.put(
     Routes.applicationGuildCommands(
@@ -19,16 +24,8 @@ const onReady = async (BOT: Client) => {
     { body: commandData },
   );
 
-    await rest.put(
-    Routes.applicationGuildCommands(
-      BOT.user?.id || 'missing id',
-      process.env.TEST_GUILD_ID as string,
-    ),
-    { body: commandData },
-  );
-
   await AttachEvents(BOT);
   console.log('Bot locked and loaded');
-};
+}
 
 export default onReady;

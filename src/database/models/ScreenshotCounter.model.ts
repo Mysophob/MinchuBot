@@ -38,6 +38,8 @@ const screenshotCounterModel = sequelize.define<ScreenshotCounterInstance>('user
     }]
 });
 
+export let currentMonthsList = [];
+
 
 export const updateScreenshotCounter = async (args: { userId: string, userName: string, amount: number }) => {
     const currentDate = new Date();
@@ -68,6 +70,8 @@ export const updateScreenshotCounter = async (args: { userId: string, userName: 
     } catch (error) {
         console.error('[Error] Could not update screenshot counter', error);
     }
+
+    await updateCurrentMothList();
 };
 
 export const getMonthlyScreenshotCount = async (args: { userId: string, userName: string }): Promise<number> => {
@@ -154,5 +158,45 @@ export const getTopListForMonth = async (dateString: string): Promise<TopScreens
         return [];
     }
 };
+
+/**
+ * Fetches all distinct yearMonth values available in the database.
+ * Returns them formatted as "YYYY/MM" (e.g., ["2025/01", "2024/12"]) for use in a dropdown.
+ */
+const getAvailableMonths = async (): Promise<string[]> => {
+    try {
+        const distinctMonths = await screenshotCounterModel.findAll({
+            attributes: ['yearMonth'],
+            group: ['yearMonth'],
+            order: [['yearMonth', 'DESC']],
+            raw: true
+        });
+
+        const formattedMonths = distinctMonths.map((record: any) => {
+            const dateStr = record.yearMonth.toString();
+
+            if (dateStr.length === 6) {
+                const year = dateStr.substring(0, 4);
+                const month = dateStr.substring(4, 6);
+                return `${year}/${month}`;
+            }
+            return dateStr;
+        }) as string[];
+
+        return formattedMonths;
+
+    } catch (error) {
+        console.error(`[Error] Could not fetch available months:`, error);
+        return [];
+    }
+};
+
+export const updateCurrentMothList = async () => {
+    try {
+        currentMonthsList = await getAvailableMonths().then();
+    } catch (error) {
+        console.error('[Error] Could not update screenshot monthlist', error);
+    }
+}
 
 export default screenshotCounterModel;

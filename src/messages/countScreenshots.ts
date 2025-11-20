@@ -2,6 +2,8 @@ import { Message } from "discord.js";
 import { updateScreenshotCounter } from "../database/models/ScreenshotCounter.model";
 
 export const screenshotBotList = ["1385872966759354449"];
+export const homeScreenshotBotList = ["1385872966759354449"];
+
 export const screenshotChannelIdList = ["1385872733707046962", "1437043792078307391"];
 
 
@@ -24,7 +26,28 @@ const countScreenshots = async (newMessage: Message) => {
         const match = newMessage.content.match(usernameRegex);
 
         if (match && match[1]) {
-            const extractedTwtichUserName = match[1];
+            let extractedTwtichUserName = match[1];
+            if(match[1].length > 1){
+                extractedTwtichUserName =  match[1].charAt(0).toLowerCase() + match[1].slice(1);
+            }
+            console.log(`Screenshot bot posted ${imageCount} image(s) for user: ${extractedTwtichUserName}`);
+            await updateScreenshotCounter({
+                userId: extractedTwtichUserName,
+                userName: extractedTwtichUserName,
+                amount: imageCount
+            });
+            await newMessage.react('✅');
+        }
+    }
+    else if(homeScreenshotBotList.includes(newMessage.author.id)){
+        const usernameRegex = new RegExp(/^(.*?) has made a snap/);
+        const match = newMessage.content.match(usernameRegex);
+
+        if (match && match[1]) {
+            let extractedTwtichUserName = match[1];
+            if(match[1].length > 1){
+                extractedTwtichUserName =  match[1].charAt(0).toLowerCase() + match[1].slice(1);
+            }
             console.log(`Screenshot bot posted ${imageCount} image(s) for user: ${extractedTwtichUserName}`);
             await updateScreenshotCounter({
                 userId: extractedTwtichUserName,
