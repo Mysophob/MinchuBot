@@ -27,7 +27,7 @@ const testAnnounce: Command = {
       interaction.editReply('fak override didnt work');
       return;
     }
-
+    return;
     //await interaction.editReply("success");
   },
 };
