@@ -6,6 +6,10 @@ import coins from "./gamble/bot.getCurrency";
 import coinTopList from "./gamble/bot.coinsTopList";
 import getScreenshotTopList from "./screenshots/bot.getScreenshotTopList";
 import getScreenshotTopListForMonth from "./screenshots/bot.getScreenshotTopListForMonth";
+import addBirthdayCommand from "./birthday/addBirthday";
+import getBirthdayListCommand from "./birthday/getBirthdayList";
+import getNextBirthday from "./birthday/getNextBirthday";
+import testAnnounce from "./birthday/testAnnounce";
 
 const CommandList: Command[] = [
   botSetPersonality,
@@ -16,7 +20,12 @@ const CommandList: Command[] = [
   coinTopList,
   //screenshots
   getScreenshotTopList,
-  getScreenshotTopListForMonth
+  getScreenshotTopListForMonth,
+  //birthdays
+  addBirthdayCommand,
+  getBirthdayListCommand,
+  getNextBirthday,
+  testAnnounce,
 ];
 
 export default CommandList;
