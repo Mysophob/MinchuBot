@@ -67,13 +67,12 @@ export async function announceUserFromList(client: Client, user: string) {
         const message: string = `@here it's <@${
           entry.userID
         }> Birthday today! WOO ${party?.toString()}`;
-        sendChannel.send(message);
+        //sendChannel.send(message);
         lastAnnouncedBirthdayName = entry.user;
+        return message;
       }
     }
   });
-  
-  return result;
 }
 
 export default announceBirthday;
