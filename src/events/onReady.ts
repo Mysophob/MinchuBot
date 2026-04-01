@@ -3,6 +3,7 @@ import { Routes } from 'discord-api-types/v9';
 import { Client } from 'discord.js';
 import CommandList from '../commands/_CommandList';
 import AttachEvents from './EventInitialisation';
+import birthdayModel from '../database/models/birthdayEntry.model';
 
 const rest = new REST({ version: '9' }).setToken(
   process.env.BOT_TOKEN as string,
@@ -14,7 +15,8 @@ const onReady = async (BOT: Client) => {
 
 export const updateCommandData = async(BOT: Client) =>
 {
-    const commandData = CommandList.map((command) => command.data.toJSON());
+  await birthdayModel.sync();
+  const commandData = CommandList.map((command) => command.data.toJSON());
 
   await rest.put(
     Routes.applicationGuildCommands(

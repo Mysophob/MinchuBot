@@ -3,7 +3,7 @@ import birthdayModel from "./birthdayEntry.model";
 import { Birthday } from "./birthdayEntry.model";
 
 // Sync the table on first import (creates it if it doesn't exist)
-birthdayModel.sync();
+// birthdayModel.sync();
 
 export async function getBirthdayList(
     _client: Client
