@@ -21,7 +21,8 @@ const testAnnounce: Command = {
       interaction.editReply('APIKey wrong');
       return;
     }
-    const result = await announceUserFromList(interaction.client, interaction.user.displayName)
+    const user = interaction.options.get('user')?.value as string;
+    const result = await announceUserFromList(interaction.client, user);
 
     if (result === undefined || result === null) {
       interaction.editReply('fak override didnt work');

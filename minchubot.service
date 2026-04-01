@@ -1,0 +1,14 @@
+[Unit]
+Description=Minchus Discord Demon Service
+Wants=network. Target
+
+[Service]
+Restart=always
+RestartSec=15
+User=discordbot
+WorkingDirectory=/home/discordbot/MinchuBot
+ExecStart=/home/discordbot/.nvm/versions/node/v20.9.0/bin/npm run br
+Environment=PATH=/home/discordbot/.nvm/versions/node/v20.9.0/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+
+[Install]
+WantedBy=multi-user.target
