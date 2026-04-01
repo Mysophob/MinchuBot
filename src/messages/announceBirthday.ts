@@ -2,17 +2,30 @@ import { Client, TextChannel } from "discord.js";
 import { getBirthdayList } from "../database/models/birthdayDB";
 import { Birthday } from "../database/models/birthdayEntry.model";
 
-let lastAnnouncedBirthdayName: string;
+const TOKYO_OFFSET_MS = 9 * 60 * 60 * 1000;
+
+let announcedToday: Set<string> = new Set();
+let lastAnnouncedDate: string = "";
 
 export function isBirthdayToday(someDate: Date): boolean {
-  const today = new Date();
+  const nowTokyo = new Date(Date.now() + TOKYO_OFFSET_MS);
+  const birthdayTokyo = new Date(someDate.getTime() + TOKYO_OFFSET_MS);
   return (
-    someDate.getDate() === today.getDate() &&
-    someDate.getMonth() === today.getMonth()
+    birthdayTokyo.getUTCDate() === nowTokyo.getUTCDate() &&
+    birthdayTokyo.getUTCMonth() === nowTokyo.getUTCMonth()
   );
 }
 
 async function announceBirthday(client: Client) {
+  const todayKey = new Date(Date.now() + TOKYO_OFFSET_MS)
+    .toISOString()
+    .slice(0, 10);
+
+  if (lastAnnouncedDate !== todayKey) {
+    announcedToday = new Set();
+    lastAnnouncedDate = todayKey;
+  }
+
   const result = await getBirthdayList(client);
 
   if (result === undefined || result === null) {
@@ -20,11 +33,11 @@ async function announceBirthday(client: Client) {
   }
 
   result.forEach((entry: Birthday) => {
-    if (lastAnnouncedBirthdayName !== entry.user) {
+    if (!announcedToday.has(entry.user)) {
       const date = new Date(entry.birthdayDate);
       if (isBirthdayToday(date)) {
         const channel = client.channels.cache.find(
-          (ch) => ch.id === process.env.BOT_BIRTHDAY_ANNOUNCE_CHANNELID as string
+          (ch) => ch.id === (process.env.BOT_BIRTHDAY_ANNOUNCE_CHANNELID as string)
         );
         if (channel instanceof TextChannel) {
           const sendChannel = channel as TextChannel;
@@ -35,11 +48,12 @@ async function announceBirthday(client: Client) {
             entry.userID
           }> birthday today! WOO ${party?.toString()}`;
           sendChannel.send(message);
-          lastAnnouncedBirthdayName = entry.user;
+          announcedToday.add(entry.user);
         }
       }
     }
   });
+
   return result;
 }
 
@@ -50,29 +64,25 @@ export async function announceUserFromList(client: Client, user: string) {
     return;
   }
 
+  const entry = result.find((e: Birthday) => e.user === user);
 
-  result.forEach((entry: Birthday) => {
-    console.log(entry);
-    if (entry.user === user) {
-      const channel = client.channels.cache.find(
-        (ch) => ch.id === process.env.BOT_TEST_CHANNEL
-      );
+  if (!entry) return;
 
-      if (channel instanceof TextChannel) {
-        const sendChannel = channel as TextChannel;
-        const party = client.emojis.cache.find(
-          (emoji) => emoji.name === "clap"
-        );
+  const channel = client.channels.cache.find(
+    (ch) => ch.id === process.env.BOT_TEST_CHANNEL
+  );
 
-        const message: string = `@here it's <@${
-          entry.userID
-        }> Birthday today! WOO ${party?.toString()}`;
-        //sendChannel.send(message);
-        lastAnnouncedBirthdayName = entry.user;
-        return message;
-      }
-    }
-  });
+  if (channel instanceof TextChannel) {
+    const sendChannel = channel as TextChannel;
+    const party = client.emojis.cache.find((emoji) => emoji.name === "clap");
+
+    const message: string = `@here it's <@${
+      entry.userID
+    }> Birthday today! WOO ${party?.toString()}`;
+    // sendChannel.send(message);
+    announcedToday.add(entry.user);
+    return message;
+  }
 }
 
 export default announceBirthday;

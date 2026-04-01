@@ -12,13 +12,12 @@ async function periodicBirthdayCheck(client: Client) {
   const nowTokyo = new Date(now.getTime() + TOKYO_OFFSET_MS);
 
   // Next midnight in Tokyo time
-  const tomorrowTokyo = new Date(
+  const tomorrowTokyo = new Date(Date.UTC(
     nowTokyo.getUTCFullYear(),
     nowTokyo.getUTCMonth(),
     nowTokyo.getUTCDate() + 1,
     0, 0, 0
-  );
-
+  ));
   // Convert back to server local time
   const msToTokyoMidnight = tomorrowTokyo.getTime() - TOKYO_OFFSET_MS - now.getTime();
 
