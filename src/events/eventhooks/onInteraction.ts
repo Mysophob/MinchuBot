@@ -1,7 +1,12 @@
 import { ChatInputCommandInteraction } from 'discord.js';
 import CommandList from '../../commands/_CommandList';
+const handledInteractions = new Set<string>();
 
 const onInteraction = async (interaction: ChatInputCommandInteraction) => {
+  if (handledInteractions.has(interaction.id)) return;
+  handledInteractions.add(interaction.id);
+  setTimeout(() => handledInteractions.delete(interaction.id), 5000);
+
   if (interaction.isCommand()) {
     for (const element of CommandList) {
       if (interaction.commandName === element.data.name) {
