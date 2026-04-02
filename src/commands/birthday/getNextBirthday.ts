@@ -13,45 +13,41 @@ const getNextBirthday: Command = {
 
     const result = await getBirthdayList(interaction.client);
 
-    if (result === undefined || result === null || result.length === 0) {
-      interaction.editReply("Couldnt find shit");
+    if (!result || result.length === 0) {
+      interaction.editReply("Couldn't find any birthdays.");
       return;
     }
 
-    // let nextBirthday = { name: 'niemand', birthday: '00' };
-    let nextBirthdayName = "nobody";
-    let nextBirthdayDate = "00";
-    function isBirthdayAfterToday(birthday: Date, todayDate: Date): boolean {
-      if (birthday.getMonth() === todayDate.getMonth()) {
-        return birthday.getDate() > todayDate.getDate();
+    const today = new Date();
+
+    function getNextOccurrence(birthdayDate: Date): Date {
+      const next = new Date(birthdayDate);
+      next.setFullYear(today.getFullYear());
+
+      // If that date has already passed this year, push to next year
+      if (
+        next.getMonth() < today.getMonth() ||
+        (next.getMonth() === today.getMonth() && next.getDate() <= today.getDate())
+      ) {
+        next.setFullYear(today.getFullYear() + 1);
       }
-      return birthday.getMonth() >= todayDate.getMonth();
+
+      return next;
     }
 
-    const arr = result.filter((res) =>
-      isBirthdayAfterToday(new Date(res.birthdayDate), new Date())
-    );
+    result.sort((a, b) => {
+      const nextA = getNextOccurrence(new Date(a.birthdayDate));
+      const nextB = getNextOccurrence(new Date(b.birthdayDate));
+      return nextA.valueOf() - nextB.valueOf();
+    });
 
-    if (arr.length > 1) {
-      arr.sort((a, b) => {
-        const dateA = new Date(a.birthdayDate).setFullYear(2024);
-        const dateB = new Date(b.birthdayDate).setFullYear(2024);
-        return dateA.valueOf() - dateB.valueOf();
-      });
-      nextBirthdayName = arr[0].user;
-      nextBirthdayDate = arr[0].birthdayDate;
-    } else {
-      nextBirthdayName = result[0].user;
-      nextBirthdayDate = result[0].birthdayDate;
-    }
+    const nextBirthdayName = result[0].user;
+    const nextBirthdayDate = result[0].birthdayDate;
 
     const embedReply = new EmbedBuilder();
-    embedReply.setTitle("Next Brithday");
-    const readableDate = dateToString(new Date(nextBirthdayDate));
-    embedReply.addFields({ name: nextBirthdayName, value: readableDate });
-    embedReply.setFooter({
-      text: "He is the next one to have birthday",
-    });
+    embedReply.setTitle("Next Birthday");
+    embedReply.addFields({ name: nextBirthdayName, value: dateToString(new Date(nextBirthdayDate)) });
+    embedReply.setFooter({ text: "They are the next one to have a birthday" });
 
     await interaction.editReply({ embeds: [embedReply] });
   },
