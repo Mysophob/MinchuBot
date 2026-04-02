@@ -20,7 +20,8 @@ async function periodicBirthdayCheck(client: Client) {
   ));
   // Convert back to server local time
   const msToTokyoMidnight = tomorrowTokyo.getTime() - TOKYO_OFFSET_MS - now.getTime();
-
+  console.log(`Next announcement window is in: ${msToTokyoMidnight}`);
+  
   setTimeout(() => {
     announceBirthday(client);
     periodicBirthdayCheck(client);
