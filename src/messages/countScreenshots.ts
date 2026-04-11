@@ -40,7 +40,7 @@ const countScreenshots = async (newMessage: Message) => {
                 userName: extractedTwtichUserName,
                 amount: imageCount
             });
-            await newMessage.react('✅');
+            // await newMessage.react('✅');
         }
     }
     else if (homeScreenshotBotNameList.includes(newMessage.author.username) ||
@@ -59,7 +59,7 @@ const countScreenshots = async (newMessage: Message) => {
                 userName: extractedTwtichUserName,
                 amount: imageCount
             });
-            await newMessage.react('✅');
+            // await newMessage.react('✅');
         }
     }
     else {
@@ -69,7 +69,7 @@ const countScreenshots = async (newMessage: Message) => {
                 userName: newMessage.author.username,
                 amount: imageCount
             });
-            await newMessage.react('✅');
+            // await newMessage.react('✅');
         }
     }
 }

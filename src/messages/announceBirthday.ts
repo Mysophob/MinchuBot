@@ -44,7 +44,7 @@ async function announceBirthday(client: Client) {
           const party = client.emojis.cache.find(
             (emoji) => emoji.name === "minchu2Piccolo"
           );
-          const message: string = `@everyone it's <@${
+          const message: string = `@here it's <@${
             entry.userID
           }> birthday today! WOO ${party?.toString()}`;
           sendChannel.send(message);
