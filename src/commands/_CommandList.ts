@@ -10,6 +10,7 @@ import addBirthdayCommand from "./birthday/addBirthday";
 import getBirthdayListCommand from "./birthday/getBirthdayList";
 import getNextBirthday from "./birthday/getNextBirthday";
 import testAnnounce from "./birthday/testAnnounce";
+import removeBirthdayCommand from "./birthday/removeBirthday";
 
 const CommandList: Command[] = [
   botSetPersonality,
@@ -26,6 +27,7 @@ const CommandList: Command[] = [
   getBirthdayListCommand,
   getNextBirthday,
   testAnnounce,
+  removeBirthdayCommand,
 ];
 
 export default CommandList;

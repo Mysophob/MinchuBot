@@ -69,3 +69,17 @@ export async function updateBirthday(
         return undefined;
     }
 }
+
+
+export async function removeBirthday(
+    _client: Client,
+    userID: string
+): Promise<boolean> {
+    try {
+        const deletedCount = await birthdayModel.destroy({ where: { userID } });
+        return deletedCount > 0;
+    } catch (error) {
+        console.error(error);
+        return false;
+    }
+}
