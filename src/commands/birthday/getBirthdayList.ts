@@ -6,6 +6,22 @@ import { getBirthdayList } from '../../database/models/birthdayDB';
 
 const PAGE_SIZE = 10;
 
+// Sort key: ms timestamp of each birthday's NEXT occurrence relative to `from`.
+// Today counts as 0 days away, so today's birthdays sort first. Birthdays that
+// have already passed this year wrap around to next year.
+function nextOccurrence(birthdayDate: string, from: Date): number {
+  const bd = new Date(birthdayDate);
+  const month = bd.getMonth();
+  const day = bd.getDate();
+
+  const today = new Date(from.getFullYear(), from.getMonth(), from.getDate());
+  let next = new Date(today.getFullYear(), month, day);
+  if (next < today) {
+    next = new Date(today.getFullYear() + 1, month, day);
+  }
+  return next.getTime();
+}
+
 const getBirthdayListCommand: Command = {
   data: new SlashCommandBuilder()
     .setName('birthdaylist')
@@ -20,6 +36,12 @@ const getBirthdayListCommand: Command = {
       interaction.editReply('No birthdays found.');
       return;
     }
+
+    // Sort so the soonest upcoming birthdays (from today) come first
+    const today = new Date();
+    result.sort(
+      (a, b) => nextOccurrence(a.birthdayDate, today) - nextOccurrence(b.birthdayDate, today)
+    );
 
     let page = 0;
     const totalPages = Math.ceil(result.length / PAGE_SIZE);
