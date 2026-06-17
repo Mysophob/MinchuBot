@@ -72,10 +72,13 @@ export async function testAnnounceUserFromList(client: Client, user: string) {
   if (channel instanceof TextChannel) {
     const sendChannel = channel as TextChannel;
     const party = client.emojis.cache.find((emoji) => emoji.name === "minchu2Piccolo");
+    const emojiList = sendChannel.guild.emojis.cache
+      .map((e) => `${e.name} = ${e.id}${e.roles.cache.size ? "  (ROLE-LOCKED)" : ""}`)
+      .join("\n");
 
     const message: string = `TEST TEST @here it's <@${
       entry.userID
-    }> Birthday today! WOO <:minchu2Piccolo:1432398926539001916>`;
+    }> Birthday today! WOO <:minchu2Piccolo:1432398926539001916>` + `\n` + emojiList;
     // sendChannel.send(message);
     announcedToday.add(entry.user);
     return message;
