@@ -78,7 +78,7 @@ export async function testAnnounceUserFromList(client: Client, user: string) {
 
     const message: string = `TEST TEST @here it's <@${
       entry.userID
-    }> Birthday today! WOO <:minchu2Piccolo:1432398926539001916>` + `\n` + emojiList;
+    }> Birthday today! WOO ${party ?? ""}` + `\n` + emojiList;
     // sendChannel.send(message);
     announcedToday.add(entry.user);
     return message;
