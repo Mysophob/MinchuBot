@@ -41,12 +41,9 @@ async function announceBirthday(client: Client) {
         );
         if (channel instanceof TextChannel) {
           const sendChannel = channel as TextChannel;
-          const party = client.emojis.cache.find(
-            (emoji) => emoji.name === "minchu2Piccolo"
-          );
           const message: string = `@here it's <@${
             entry.userID
-          }> birthday today! WOO ${party?.toString()}`;
+          }> birthday today! WOO <:minchu2Piccolo:1432398926539001916>`;
           sendChannel.send(message);
           announcedToday.add(entry.user);
         }
@@ -74,11 +71,11 @@ export async function announceUserFromList(client: Client, user: string) {
 
   if (channel instanceof TextChannel) {
     const sendChannel = channel as TextChannel;
-    const party = client.emojis.cache.find((emoji) => emoji.name === "clap");
+    const party = client.emojis.cache.find((emoji) => emoji.name === "minchu2Piccolo");
 
     const message: string = `@here it's <@${
       entry.userID
-    }> Birthday today! WOO ${party?.toString()}`;
+    }> Birthday today! WOO <:minchu2Piccolo:1432398926539001916>`;
     // sendChannel.send(message);
     announcedToday.add(entry.user);
     return message;
