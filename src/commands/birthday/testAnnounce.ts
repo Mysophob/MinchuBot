@@ -1,6 +1,8 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { Command } from '../../interfaces/Command';
 import { announceUserFromList } from '../../messages/announceBirthday';
+import { MessageFlags } from 'discord-api-types/v10';
+
 
 const testAnnounce: Command = {
   data: new SlashCommandBuilder()
@@ -15,7 +17,7 @@ const testAnnounce: Command = {
       .setDescription('user')
       .setRequired(true)),
   run: async (interaction) => {
-    await interaction.deferReply();
+    await interaction.deferReply({ flags: MessageFlags.Ephemeral });
     const APIKey = interaction.options.get('apikey')?.value as string;
     if(APIKey !== process.env.BOT_TOKEN){
       interaction.editReply('APIKey wrong');
