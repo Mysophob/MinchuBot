@@ -12,7 +12,7 @@ import { updateCurrentMothList } from './database/models/ScreenshotCounter.model
   }).catch(console.error);
   await updateCurrentMothList();
 
-  const BOT = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMessageReactions], partials: [Partials.Message] });
+  const BOT = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMessageReactions, GatewayIntentBits.GuildExpressions], partials: [Partials.Message] });
   BOT.once(Events.ClientReady, async () => onReady(BOT));
   
   await BOT.login(process.env.BOT_TOKEN);
