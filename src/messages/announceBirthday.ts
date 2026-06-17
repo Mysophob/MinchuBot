@@ -76,7 +76,7 @@ export async function testAnnounceUserFromList(client: Client, user: string) {
       .map((e) => `${e.name} = ${e.id}${e.roles.cache.size ? "  (ROLE-LOCKED)" : ""}`)
       .join("\n");
 
-    const message: string = `TEST TEST @here it's <@${
+    const message: string = `it's <@${
       entry.userID
     }> Birthday today! WOO ${party ?? ""}` + `\n` + emojiList;
     // sendChannel.send(message);
