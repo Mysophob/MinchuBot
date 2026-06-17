@@ -54,7 +54,7 @@ async function announceBirthday(client: Client) {
   return result;
 }
 
-export async function announceUserFromList(client: Client, user: string) {
+export async function testAnnounceUserFromList(client: Client, user: string) {
   const result = await getBirthdayList(client);
 
   if (result === undefined || result === null) {
@@ -73,7 +73,7 @@ export async function announceUserFromList(client: Client, user: string) {
     const sendChannel = channel as TextChannel;
     const party = client.emojis.cache.find((emoji) => emoji.name === "minchu2Piccolo");
 
-    const message: string = `@here it's <@${
+    const message: string = `TEST TEST @here it's <@${
       entry.userID
     }> Birthday today! WOO <:minchu2Piccolo:1432398926539001916>`;
     // sendChannel.send(message);

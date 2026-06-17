@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { Command } from '../../interfaces/Command';
-import { announceUserFromList } from '../../messages/announceBirthday';
+import { testAnnounceUserFromList } from '../../messages/announceBirthday';
 import { MessageFlags } from 'discord-api-types/v10';
 
 
@@ -24,7 +24,7 @@ const testAnnounce: Command = {
       return;
     }
     const user = interaction.options.get('user')?.value as string;
-    const result = await announceUserFromList(interaction.client, user);
+    const result = await testAnnounceUserFromList(interaction.client, user);
 
     if (result === undefined || result === null) {
       interaction.editReply('fak override didnt work');
