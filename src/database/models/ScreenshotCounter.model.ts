@@ -41,40 +41,16 @@ const screenshotCounterModel = sequelize.define<ScreenshotCounterInstance>('user
 export let currentMonthsList = [];
 
 
-/**
- * Maps known name variants (Twitch handle, alternate spelling, etc.) to a single
- * canonical display name. Keys MUST be lowercase. Values are the name you want shown.
- *
- * Use this ONLY for cases where the strings are genuinely different and can't be
- * matched by casing alone, e.g. a Twitch handle vs a Discord display name.
- *
- * Pure casing differences (e.g. "unknowFrenchGirl" vs "unknowfrenchgirl") are handled
- * automatically by normalizeName() and do NOT need an entry here.
- *
- * Example:
- *   "xx_gamer_xx": "Bob",
- *   "bobontwitch":  "Bob",
- */
 const userAliases: Record<string, string> = {
     // "twitchhandle": "DiscordName",
 };
 
-/**
- * Produces the grouping key for a username: trims whitespace, lowercases, and
- * applies the alias map. Two names that produce the same key are treated as the
- * same person.
- */
+
 const normalizeName = (name: string): string => {
     const key = name.trim().toLowerCase();
     return userAliases[key] ?? key;
 };
 
-/**
- * Collapses rows that belong to the same person (same normalized name) into a
- * single entry, summing their counters. The display name kept is the variant with
- * the highest individual count, since the input is expected to be sorted DESC.
- * Result is re-sorted DESC by the combined total.
- */
 const aggregateTopList = (rows: TopScreenshotUserDto[]): TopScreenshotUserDto[] => {
     const merged = new Map<string, TopScreenshotUserDto>();
 
@@ -85,7 +61,6 @@ const aggregateTopList = (rows: TopScreenshotUserDto[]): TopScreenshotUserDto[] 
         if (existing) {
             existing.screenshotcounter += row.screenshotcounter;
         } else {
-            // Clone so we don't mutate the original row object.
             merged.set(key, { userName: row.userName, screenshotcounter: row.screenshotcounter });
         }
     }
@@ -169,7 +144,6 @@ export const getMonthlyTopList = async (): Promise<TopScreenshotUserDto[]> => {
             order: [['screenshotcounter', 'DESC']],
             raw: true
         });
-        // Merge duplicate names (casing + aliases) before returning.
         return aggregateTopList(topUsers);
     } catch (error) {
         console.error(error);
@@ -197,9 +171,6 @@ export const getTopListForMonth = async (dateString: string): Promise<TopScreens
         // Convert to the YYYYMM integer format for the database query
         const targetYearMonth = parseInt(`${year}${month.toString().padStart(2, '0')}`);
 
-        // NOTE: no DB-level limit here. We must fetch everything first, merge the
-        // duplicates, and only THEN take the top 10 — otherwise the limit could cut
-        // off rows that would have merged into the top entries.
         const topUsers = await screenshotCounterModel.findAll({
             where: {
                 yearMonth: targetYearMonth
