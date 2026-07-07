@@ -41,9 +41,20 @@ async function announceBirthday(client: Client) {
         );
         if (channel instanceof TextChannel) {
           const sendChannel = channel as TextChannel;
-          const message: string = `@here it's <@${
-            entry.userID
-          }> birthday today! WOO <:minchu2Piccolo:1432398926539001916>`;
+          const birthday = client.emojis.cache.find(
+            (emoji) => emoji.name === "birthday"
+          );
+
+          const party = client.emojis.cache.find(
+            (emoji) => emoji.name === "partying_face"
+          );
+
+          const tada = client.emojis.cache.find(
+            (emoji) => emoji.name === "tada"
+          );
+
+          const message: string = `@here Everyone! It's <@${entry.userID
+            }> birthday today! WOO ${birthday?.toString()}${party?.toString()}${tada?.toString()}`;
           sendChannel.send(message);
           announcedToday.add(entry.user);
         }
@@ -71,14 +82,20 @@ export async function testAnnounceUserFromList(client: Client, user: string) {
 
   if (channel instanceof TextChannel) {
     const sendChannel = channel as TextChannel;
-    const party = client.emojis.cache.find((emoji) => emoji.name === "minchu2Piccolo");
-    const emojiList = sendChannel.guild.emojis.cache
-      .map((e) => `${e.name} = ${e.id}${e.roles.cache.size ? "  (ROLE-LOCKED)" : ""}`)
-      .join("\n");
+    const birthday = client.emojis.cache.find(
+      (emoji) => emoji.name === "birthday"
+    );
 
-    const message: string = `it's <@${
-      entry.userID
-    }> Birthday today! WOO ${party ?? ""}` + `\n` + emojiList;
+    const party = client.emojis.cache.find(
+      (emoji) => emoji.name === "partying_face"
+    );
+
+    const tada = client.emojis.cache.find(
+      (emoji) => emoji.name === "tada"
+    );
+
+    const message: string = `@here Everyone! It's <@${entry.userID
+      }> birthday today! WOO ${birthday?.toString()}${party?.toString()}${tada?.toString()}`;
     // sendChannel.send(message);
     announcedToday.add(entry.user);
     return message;
