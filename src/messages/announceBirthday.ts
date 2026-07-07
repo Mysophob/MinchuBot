@@ -53,8 +53,9 @@ async function announceBirthday(client: Client) {
             emoji => emoji.name === "tada"
           );
 
+
           const message: string = `@here Everyone! It's <@${entry.userID
-            }> birthday today! WOO ${birthday}${party}${tada}`;
+            }> birthday today! WOO \🎂🥳🎉`;
           sendChannel.send(message);
           announcedToday.add(entry.user);
         }
@@ -95,7 +96,7 @@ export async function testAnnounceUserFromList(client: Client, user: string) {
     );
 
     const message: string = `@here Everyone! It's <@${entry.userID
-      }> birthday today! WOO ${birthday}${party}${tada}`;
+      }> birthday today! WOO \🎂🥳🎉`;
     // sendChannel.send(message);
     announcedToday.add(entry.user);
     return message;
