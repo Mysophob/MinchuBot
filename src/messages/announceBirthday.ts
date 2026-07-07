@@ -42,19 +42,19 @@ async function announceBirthday(client: Client) {
         if (channel instanceof TextChannel) {
           const sendChannel = channel as TextChannel;
           const birthday = client.emojis.cache.find(
-            (emoji) => emoji.name === "birthday"
+            emoji => emoji.name === "birthday"
           );
 
           const party = client.emojis.cache.find(
-            (emoji) => emoji.name === "partying_face"
+            emoji => emoji.name === "partying_face"
           );
 
           const tada = client.emojis.cache.find(
-            (emoji) => emoji.name === "tada"
+            emoji => emoji.name === "tada"
           );
 
           const message: string = `@here Everyone! It's <@${entry.userID
-            }> birthday today! WOO ${birthday?.toString()}${party?.toString()}${tada?.toString()}`;
+            }> birthday today! WOO ${birthday}${party}${tada}`;
           sendChannel.send(message);
           announcedToday.add(entry.user);
         }
@@ -83,19 +83,19 @@ export async function testAnnounceUserFromList(client: Client, user: string) {
   if (channel instanceof TextChannel) {
     const sendChannel = channel as TextChannel;
     const birthday = client.emojis.cache.find(
-      (emoji) => emoji.name === "birthday"
+      emoji => emoji.name === "birthday"
     );
 
     const party = client.emojis.cache.find(
-      (emoji) => emoji.name === "partying_face"
+      emoji => emoji.name === "partying_face"
     );
 
     const tada = client.emojis.cache.find(
-      (emoji) => emoji.name === "tada"
+      emoji => emoji.name === "tada"
     );
 
     const message: string = `@here Everyone! It's <@${entry.userID
-      }> birthday today! WOO ${birthday?.toString()}${party?.toString()}${tada?.toString()}`;
+      }> birthday today! WOO ${birthday}${party}${tada}`;
     // sendChannel.send(message);
     announcedToday.add(entry.user);
     return message;
